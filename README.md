@@ -1,6 +1,10 @@
 # team1-project
 
-# team1-test
+# メンバー
+
+-Daishi Karino
+-Koichi Uchida
+-Tomonori Mikasa(メンター)
 
 ## Project setup
 
