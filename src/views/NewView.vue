@@ -1,0 +1,7 @@
+<template>
+  <div class="nwe">
+    <img alt="Vue logo" src="../assets/logo.png" />
+  </div>
+</template>
+
+<script></script>
