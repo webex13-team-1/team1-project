@@ -1,17 +1,16 @@
 <template>
   <div class="home">
+    <div class="header">
+      <p>新規投稿</p>
+    </div>
     <div class="lists">
-      <div class="list">
+      <div class="list" v-for="company in companies" :key="company.companyId">
         <div class="list-header">
           <a>Header</a>
         </div>
         <div class="cards">
           <!-- 以下一枚一枚のカード作り -->
-          <div
-            class="card"
-            v-for="company in companies"
-            :key="company.companyId"
-          >
+          <div class="card">
             <!-- :key="content.id"がないとエラーが出る -->
             <!-- 会社名 -->
             <div class="company-name">
@@ -43,11 +42,14 @@
 </template>
 
 <style>
-.card {
+.list {
   width: 40%;
   margin: 5%;
   background-color: #42b983;
   display: inline-block;
+}
+.list-header {
+  background-color: bisque;
 }
 </style>
 
