@@ -14,21 +14,25 @@
           >
             <!-- :key="content.id"がないとエラーが出る -->
             <!-- 会社名 -->
-            {{ company.companyName }}
+            <div class="company-name">
+              {{ company.companyName }}
+            </div>
             <div
-              class="card"
+              class="envents"
               v-for="event in company.companyContents.event"
               :key="event.eventId"
             >
-              <a class="event-title">
-                <!-- イベント名 -->
-                {{ event.eventTitle }}
-              </a>
-              <a>/</a>
-              <a class="event-category">
-                <!-- イベント種類 -->
-                {{ event.eventCategory }}
-              </a>
+              <div class="event">
+                <a class="event-title">
+                  <!-- イベント名 -->
+                  {{ event.eventTitle }}
+                </a>
+                <a>/</a>
+                <a class="event-category">
+                  <!-- イベント種類 -->
+                  {{ event.eventCategory }}
+                </a>
+              </div>
             </div>
           </div>
           <!-- 以上一枚一枚のカード作り -->
@@ -38,7 +42,14 @@
   </div>
 </template>
 
-<style></style>
+<style>
+.card {
+  width: 40%;
+  margin: 5%;
+  background-color: #42b983;
+  display: inline-block;
+}
+</style>
 
 <script>
 export default {
