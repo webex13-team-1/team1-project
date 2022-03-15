@@ -13,3 +13,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
+
+//以下ログイン機能のため
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+
+export const createUser = createUserWithEmailAndPassword()
+export const auth = getAuth()
+//
