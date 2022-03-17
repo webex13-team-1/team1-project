@@ -1,35 +1,37 @@
 <template>
-  <div class="sign-up">
-    <p>新規登録</p>
-    <div>
-      <a>username</a>
-      <input type="text" v-model="username" />
-    </div>
-    <div>
-      <a>email</a>
-      <input type="text" v-model="email" />
-    </div>
-    <div>
-      <a>password</a>
-      <input type="text" v-model="password" />
-    </div>
-    <button v-on:click="signUp">SIGNUP</button>
-  </div>
-  <div class="login">
-    <p>ログイン</p>
-    <div>
-      <a>email</a>
-      <input type="text" v-model="email" />
-    </div>
-    <div>
-      <a>password</a>
-      <input type="text" v-model="password" />
-    </div>
-    <button v-on:click="login">LOGIN</button>
-  </div>
-  <div class="logout">
+  <div class="logout" v-if="user !== null">
     <p>ログアウト</p>
     <button v-on:click="logout">LOGOUT</button>
+  </div>
+  <div v-else>
+    <div class="sign-up">
+      <p>新規登録</p>
+      <div>
+        <a>username</a>
+        <input type="text" v-model="username" />
+      </div>
+      <div>
+        <a>email</a>
+        <input type="text" v-model="email" />
+      </div>
+      <div>
+        <a>password</a>
+        <input type="text" v-model="password" />
+      </div>
+      <button v-on:click="signUp">SIGNUP</button>
+    </div>
+    <div class="login">
+      <p>ログイン</p>
+      <div>
+        <a>email</a>
+        <input type="text" v-model="email" />
+      </div>
+      <div>
+        <a>password</a>
+        <input type="text" v-model="password" />
+      </div>
+      <button v-on:click="login">LOGIN</button>
+    </div>
   </div>
   <div>
     <button v-on:click="identifyLoginStatus">STATUS</button>
@@ -56,6 +58,7 @@ const auth = getAuth()
 export default {
   data() {
     return {
+      user: null,
       username: "",
       email: "",
       password: "",
@@ -93,6 +96,7 @@ export default {
     },
     login() {
       signInWithEmailAndPassword(auth, this.email, this.password)
+      this.user = auth.currentUser
     },
     logout() {
       signOut(auth)
@@ -110,12 +114,13 @@ export default {
       })
     },
   },
-  created() {
+  mounted() {
     onAuthStateChanged(auth, (user) => {
       console.log("------B")
       if (user) {
         this.loginStatus = "Logined"
         this.loginUid = user.uid
+        this.user = auth.currentUser
       } else {
         this.loginStatus = "Logout"
         this.loginUid = "-UID-"
