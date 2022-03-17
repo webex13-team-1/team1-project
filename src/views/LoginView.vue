@@ -25,11 +25,11 @@
       <a>password</a>
       <input type="text" v-model="password" />
     </div>
-    <button v-on:click="signUp">LOGIN</button>
+    <button v-on:click="login">LOGIN</button>
   </div>
   <div class="logout">
     <p>ログアウト</p>
-    <button v-on:click="signUp">LOGOUT</button>
+    <button v-on:click="logout">LOGOUT</button>
   </div>
   <div>
     <button v-on:click="identifyLoginStatus">STATUS</button>
@@ -49,7 +49,7 @@ import { doc, setDoc, Timestamp } from "firebase/firestore"
 import { db } from "../firebase"
 
 //ログインSTATUS関連
-import { onAuthStateChanged } from "firebase/auth"
+import { onAuthStateChanged, signOut } from "firebase/auth"
 
 const auth = getAuth()
 
@@ -94,39 +94,40 @@ export default {
     login() {
       signInWithEmailAndPassword(auth, this.username, this.password)
     },
+    logout() {
+      signOut(auth)
+    },
     identifyLoginStatus() {
       onAuthStateChanged(auth, (user) => {
-        console.log("------")
+        console.log("------A")
         if (user) {
-          // const uid = user.uid
           console.log("login")
-          this.loginstatus = "Logined"
-          // ...
+          this.loginStatus = "Logined"
+          this.loginUid = user.uid
+          console.log(this.loginStatus)
+          console.log(this.loginUid)
         } else {
           console.log("logout")
           this.loginstatus = "Logout"
+          this.loginUid = ""
+          console.log(this.loginStatus)
+          console.log(this.loginUid)
         }
       })
-      return this.loginstatus
     },
   },
   created() {
     onAuthStateChanged(auth, (user) => {
-      console.log("------")
+      console.log("------B")
       if (user) {
-        // const uid = user.uid
-        console.log("login")
         this.loginStatus = "Logined"
         this.loginUid = user.uid
-        // ...
       } else {
-        console.log("logout")
-        this.loginstatus = "Logout"
+        this.loginStatus = "Logout"
+        this.loginUid = "-UID-"
       }
     })
     //ここの関数はmethodsの関数と同じなので、まとめれば！
   },
 }
-
-//関数
 </script>
