@@ -92,7 +92,7 @@ export default {
       setDoc(cityRef, signUpInfo)
     },
     login() {
-      signInWithEmailAndPassword(auth, this.username, this.password)
+      signInWithEmailAndPassword(auth, this.email, this.password)
     },
     logout() {
       signOut(auth)
