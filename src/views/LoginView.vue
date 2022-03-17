@@ -101,17 +101,11 @@ export default {
       onAuthStateChanged(auth, (user) => {
         console.log("------A")
         if (user) {
-          console.log("login")
           this.loginStatus = "Logined"
           this.loginUid = user.uid
-          console.log(this.loginStatus)
-          console.log(this.loginUid)
         } else {
-          console.log("logout")
-          this.loginstatus = "Logout"
-          this.loginUid = ""
-          console.log(this.loginStatus)
-          console.log(this.loginUid)
+          this.loginStatus = "Logout"
+          this.loginUid = "-UID-"
         }
       })
     },
