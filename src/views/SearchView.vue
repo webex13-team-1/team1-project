@@ -8,7 +8,7 @@
   <div class="lists">
     <div
       class="list"
-      v-for="searchCompanies in searchGenre"
+      v-for="searchCompanies in searchCompanies"
       :key="searchCompanies.companyId"
     >
       <div class="list-header">
@@ -45,16 +45,21 @@
       </div>
     </div>
   </div>
+  <button v-on:click="test">nnnn</button>
 </template>
 
 <script>
 import { collection, getDocs } from "firebase/firestore"
 import { db } from "../firebase"
 
+import { query, where } from "firebase/firestore"
+// import { async } from "@firebase/util"
+
 export default {
   data() {
     return {
       inputValue: "",
+      searchCompanies: [],
       companies: [
         {
           companyId: 1,
@@ -117,47 +122,71 @@ export default {
       ],
     }
   },
-  //this.companies[0].companyContents.event[0]
-  computed: {
-    searchGenre: function () {
-      const searchWord = this.inputValue
-
-      var searchCompanies = []
-      console.log(searchCompanies)
-
-      for (let i = 0; i < this.companies.length; i++) {
-        var pushCompanyInfomation = {}
-        pushCompanyInfomation.companyId = this.companies[i].companyId
-        pushCompanyInfomation.companyName = this.companies[i].companyName
-
-        var event = []
-        for (
-          let j = 0;
-          j < this.companies[i].companyContents.event.length;
-          j++
-        ) {
-          if (
-            searchWord ==
-            this.companies[i].companyContents.event[j].eventCategory
-          ) {
-            event.push(this.companies[i].companyContents.event[j])
-          }
-        }
-        console.log("--------")
-        if (event.length != 0) {
-          pushCompanyInfomation.companyContents = { event: event }
-          searchCompanies.push(pushCompanyInfomation)
-        }
-      }
-      return searchCompanies
+  methods: {
+    async test() {
+      this.searchCompanies = []
+      const companiesRef = collection(db, "companies")
+      const q = query(companiesRef, where("companyName", "==", this.inputValue))
+      const querySnapshot = await getDocs(q)
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data())
+        this.searchCompanies.push(doc.data())
+      })
+      console.log(this.searchCompanies)
     },
   },
-  async created() {
-    const querySnapshot = await getDocs(collection(db, "companies"))
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      this.companies1.push(doc.data())
-    })
+  //this.companies[0].companyContents.event[0]
+  watch: {
+    inputValue: async function () {
+      console.log("---------")
+      this.searchCompanies = []
+      const companiesRef = collection(db, "companies")
+      const q = query(companiesRef, where("companyName", "==", this.inputValue))
+      const querySnapshot = await getDocs(q)
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data())
+        this.searchCompanies.push(doc.data())
+      })
+      console.log(this.searchCompanies)
+    },
+    // searchGenre: function () {
+    //   const searchWord = this.inputValue
+    //   var searchCompanies = []
+    //   console.log(searchCompanies)
+    //   for (let i = 0; i < this.companies.length; i++) {
+    //     var pushCompanyInfomation = {}
+    //     pushCompanyInfomation.companyId = this.companies[i].companyId
+    //     pushCompanyInfomation.companyName = this.companies[i].companyName
+    //     var event = []
+    //     for (
+    //       let j = 0;
+    //       j < this.companies[i].companyContents.event.length;
+    //       j++
+    //     ) {
+    //       if (
+    //         searchWord ==
+    //         this.companies[i].companyContents.event[j].eventCategory
+    //       ) {
+    //         event.push(this.companies[i].companyContents.event[j])
+    //       }
+    //     }
+    //     console.log("--------")
+    //     if (event.length != 0) {
+    //       pushCompanyInfomation.companyContents = { event: event }
+    //       searchCompanies.push(pushCompanyInfomation)
+    //     }
+    //   }
+    //   return searchCompanies
+    // },
   },
+  // async created() {
+  //   const querySnapshot = await getDocs(collection(db, "companies"))
+  //   querySnapshot.forEach((doc) => {
+  //     // doc.data() is never undefined for query doc snapshots
+  //     this.companies1.push(doc.data())
+  //   })
+  // },
 }
 </script>
