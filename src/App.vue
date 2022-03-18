@@ -6,6 +6,11 @@
     <router-link to="/search">Search</router-link> |
     <router-link to="/login">Login</router-link>
   </div>
+  <div>
+    <button v-on:click="identifyLoginStatus">STATUS</button>
+    {{ loginStatus }}
+    {{ loginUid }}
+  </div>
   <router-view />
 </template>
 
@@ -31,3 +36,58 @@
   color: #42b983;
 }
 </style>
+
+<script>
+//SIGNUP関連
+import { getAuth } from "firebase/auth"
+
+//ログインSTATUS関連
+import { onAuthStateChanged } from "firebase/auth"
+
+import { db } from "./firebase"
+
+const auth = getAuth()
+
+db
+
+export default {
+  data() {
+    return {
+      username: "",
+      email: "",
+      password: "",
+      loginStatus: "",
+      loginUid: "",
+      loginUsername: "",
+      loginEmail: "",
+    }
+  },
+  methods: {
+    identifyLoginStatus() {
+      onAuthStateChanged(auth, (user) => {
+        console.log("------A")
+        if (user) {
+          this.loginStatus = "Logined"
+          this.loginUid = user.uid
+        } else {
+          this.loginStatus = "Logout"
+          this.loginUid = "-UID-"
+        }
+      })
+    },
+  },
+  created() {
+    onAuthStateChanged(auth, (user) => {
+      console.log("------B")
+      if (user) {
+        this.loginStatus = "Logined"
+        this.loginUid = user.uid
+      } else {
+        this.loginStatus = "Logout"
+        this.loginUid = "-UID-"
+      }
+    })
+    //ここの関数はmethodsの関数と同じなので、まとめれば！
+  },
+}
+</script>
