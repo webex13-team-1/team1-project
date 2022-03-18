@@ -38,6 +38,42 @@
         </div>
       </div>
     </div>
+    -------------------------------DB内容-------------------------------
+    <div class="lists">
+      <div class="list" v-for="company in companies1" :key="company.companyId">
+        <div class="list-header">
+          <a>Header</a>
+        </div>
+        <div class="cards">
+          <!-- 以下一枚一枚のカード作り -->
+          <div class="card">
+            <!-- :key="content.id"がないとエラーが出る -->
+            <!-- 会社名 -->
+            <div class="company-name">
+              {{ company.companyName }}
+            </div>
+            <div
+              class="envents"
+              v-for="event in company.companyContents.event"
+              :key="event.eventId"
+            >
+              <div class="event">
+                <a class="event-title">
+                  <!-- イベント名 -->
+                  {{ event.eventTitle }}
+                </a>
+                <a>/</a>
+                <a class="event-category">
+                  <!-- イベント種類 -->
+                  {{ event.eventCategory }}
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- 以上一枚一枚のカード作り -->
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -54,9 +90,15 @@
 </style>
 
 <script>
+// import { doc, getDoc } from "firebase/firestore"
+import { collection, getDocs } from "firebase/firestore"
+
+import { db } from "../firebase"
+
 export default {
   data() {
     return {
+      companies1: [],
       companies: [
         {
           companyId: 1,
@@ -118,6 +160,13 @@ export default {
         },
       ],
     }
+  },
+  async created() {
+    const querySnapshot = await getDocs(collection(db, "companies"))
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      this.companies1.push(doc.data())
+    })
   },
 }
 </script>
