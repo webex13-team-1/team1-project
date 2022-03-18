@@ -6,7 +6,6 @@
     <router-link to="/search">Search</router-link> |
     <router-link to="/login">Login</router-link> |
     <router-link to="/community">Community</router-link>
-    <p>test</p>
   </div>
   <router-view />
 </template>
