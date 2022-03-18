@@ -48,6 +48,9 @@
 </template>
 
 <script>
+import { collection, getDocs } from "firebase/firestore"
+import { db } from "../firebase"
+
 export default {
   data() {
     return {
@@ -148,6 +151,13 @@ export default {
       }
       return searchCompanies
     },
+  },
+  async created() {
+    const querySnapshot = await getDocs(collection(db, "companies"))
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      this.companies1.push(doc.data())
+    })
   },
 }
 </script>
