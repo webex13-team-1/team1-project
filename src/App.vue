@@ -4,7 +4,8 @@
     <router-link to="/about">About</router-link> |
     <router-link to="/new">New</router-link> |
     <router-link to="/search">Search</router-link> |
-    <router-link to="/login">Login</router-link>
+    <router-link to="/login">Login</router-link> |
+    <router-link to="/community">Community</router-link>
   </div>
   <router-view />
 </template>
