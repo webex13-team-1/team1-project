@@ -1,6 +1,6 @@
 <template>
   <div class="community">
-    <h1>This is an community page</h1>
+    <h1>みんなの就活体験記</h1>
     <div>
       <button v-on:click="identifyLoginStatus">STATUS</button>
       {{ loginStatus }}
@@ -11,7 +11,7 @@
     <!-- どのユーザーからの投稿か判別できるようにする -->
 
     <div class="app">
-      <label for="trigger" class="open_btn">✏︎</label>
+      <label for="trigger" class="open_btn">🖋</label>
       <div class="popup_wrap">
         <input id="trigger" type="checkbox" />
         <div class="popup_overlay">
@@ -19,17 +19,21 @@
           <div class="popup_content">
             <label for="trigger" class="close_btn">×</label>
             <p>
-              <textarea v-model="title" placeholder="ツイートのタイトル" />
+              <textarea
+                v-model="title"
+                placeholder="ツイートのタイトル"
+                class="title_textarea"
+              />
               <br />
               <textarea
-                class="form__textarea"
+                class="form_textarea"
                 v-model="text"
                 placeholder="本文
         "
               />
               <br />
 
-              <button v-on:click="postTweet">ツイート</button>
+              <button v-on:click="postTweet" class="tweetBtn">ツイート</button>
             </p>
           </div>
         </div>
@@ -114,6 +118,11 @@ export default {
 </script>
 
 <style>
+h1 {
+  border-bottom: solid 5px #04a3ff;
+  width: 80%;
+  margin: 3% auto;
+}
 .tweet {
   border: 0.5px solid;
   border-color: #dddddd;
@@ -121,11 +130,24 @@ export default {
   margin: 0 auto;
 }
 .uid {
-  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 1%;
+  margin-top: 1%;
+  font-family: "ヒラギノ丸ゴ Pro W4", "ヒラギノ丸ゴ Pro",
+    "Hiragino Maru Gothic Pro";
 }
 .title {
+  font-weight: bold;
+  margin-bottom: 1%;
+  margin-top: 1%;
+  font-family: "ヒラギノ丸ゴ Pro W4", "ヒラギノ丸ゴ Pro",
+    "Hiragino Maru Gothic Pro";
 }
 .text {
+  margin-bottom: 1%;
+  margin-top: 1%;
+  font-family: "ヒラギノ丸ゴ Pro W4", "ヒラギノ丸ゴ Pro",
+    "Hiragino Maru Gothic Pro";
 }
 
 .popup_wrap input {
@@ -141,8 +163,8 @@ export default {
   z-index: 9999;
   width: 100%;
   height: 100%;
-  background: #37beb03d;
-  opacity: 0;
+  background-color: #00c3ff3d;
+  opacity: 0.5;
   transition: opacity 0.5s, transform 0s 0.5s;
   transform: scale(0);
 }
@@ -154,10 +176,11 @@ export default {
 .popup_content {
   position: relative;
   align-self: center;
+  height: 35%;
   width: 75%;
   max-width: 800px;
   box-sizing: border-box;
-  background: #fff;
+  background: #96d8fe;
   line-height: 1.4em;
   transition: 0.5s;
   border-radius: 5%;
@@ -187,16 +210,43 @@ export default {
   height: 35px;
   cursor: pointer;
   transition: 0.3s ease;
-  border: 1px solid #37beb0;
+  border: 1px solid #04a3ff;
+  background-color: #04a3ff;
   padding: 5px 15px;
   font-weight: bold;
-  position: absolute;
+  position: fixed;
   bottom: 3%;
   right: 5%;
 }
 .open_btn:hover {
-  background: #37beb0;
+  background: #04a3ff;
   color: #fff;
   transition: 0.3s ease;
+  transform: scale(1.1);
+}
+.title_textarea {
+  border: 4px solid #51bfff;
+  border-radius: 1em;
+  width: 80%;
+  box-sizing: border-box;
+  resize: none;
+  font-size: 13px;
+  text-align: center;
+  padding-bottom: 0.5em;
+}
+
+.form_textarea {
+  border: 4px solid #51bfff; /* 枠線 */
+  border-radius: 0.67em;
+  width: 80%;
+  box-sizing: border-box;
+  height: 130px;
+  line-height: 1.3;
+  resize: none;
+  font-size: 17px;
+}
+.tweetBtn {
+  border-radius: 2em;
+  background-color: #51bfff;
 }
 </style>
